@@ -1,7 +1,12 @@
+let cntr = 0;
+let playerScore = 0;
+let computerScore = 0;
+
 let playRound = (player, computer) => {
     let result = "";
     let winner = "";
     let loser = "";
+    let message = "";
 
     player = player.toLowerCase();
     computer = computer.toLowerCase();
@@ -30,15 +35,37 @@ let playRound = (player, computer) => {
             winner = player;
             loser = computer;
         }else if (player == "paper" && computer == "scissors") {
-            result = "win";
-            winner = player;
-            loser = computer;
+            result = "lose";
+            winner = computer;
+            loser = player;
         }else{
             return "Error in input";
         }
     }
-    
-    return "You " + result + "! " + winner + " beats " + loser;
+    message = "You " + result + "! " + winner + " beats " + loser + ". ";
+    results.textContent = ("Computer's move is " + computer + ". ");
+    results.textContent += (message);
+    cntr++;
+
+    if(message.indexOf("win")>-1){
+        playerScore++;
+    }else if(message.indexOf("lose")>-1){
+        computerScore++;
+    }
+    results.textContent += (" The score is " + playerScore + "-" + computerScore);
+
+    if(cntr >= 5){
+        if(playerScore>computerScore){
+            alert("\nYou won the game! With a final score of " 
+            + playerScore + "-" + computerScore);
+        }else if(playerScore<computerScore){
+            alert("\nYou lose the game! With a final score of " 
+            + playerScore + "-" + computerScore);
+        }else{
+            alert("\nThe game ends in a draw! With a final score of " 
+            + playerScore + "-" + computerScore);
+        }
+    }
 }
 
 let computerPlay = () => {
@@ -53,6 +80,16 @@ let computerPlay = () => {
             return "paper";
     }
 }
+
+const buttons = document.querySelectorAll('button');
+buttons.forEach((button) =>{
+    button.addEventListener('click', (e) => {
+        playRound(button.id, computerPlay());
+    });
+});
+
+const results = document.querySelector(".results");
+
 
 const game = () =>{
     let playerChoice = "";
@@ -92,6 +129,3 @@ const game = () =>{
     }
 
 }
-
-game();
-
